@@ -99,3 +99,36 @@ class StringSorter
 
         return new string(chars);
     }
+
+    static string SelectionSort(string s)
+    {
+        char[] chars = s.ToCharArray();
+
+        for (int i = 0; i < chars.Length - 1; i++)
+        {
+            int minIndex = i;
+
+            for (int j = i + 1; j < chars.Length; j++)
+            {
+                if (chars[j] < chars[minIndex])
+                {
+                    minIndex = j;
+                }
+            }
+
+            if (minIndex != i)
+            {
+                Swap(chars, i, minIndex);
+            }
+        }
+
+        return new string(chars);
+    }
+
+    static void Swap(char[] chars, int i, int j)
+    {
+        char temp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = temp;
+    }
+}
