@@ -46,3 +46,56 @@ class StringSorter
 
         return new string(stringChars);
     }
+
+    static string QuickSort(string s)
+    {
+        char[] chars = s.ToCharArray();
+        QuickSort(chars, 0, chars.Length - 1);
+        return new string(chars);
+    }
+
+    static void QuickSort(char[] chars, int left, int right)
+    {
+        if (left < right)
+        {
+            int pivotIndex = Partition(chars, left, right);
+            QuickSort(chars, left, pivotIndex - 1);
+            QuickSort(chars, pivotIndex + 1, right);
+        }
+    }
+
+    static int Partition(char[] chars, int left, int right)
+    {
+        char pivot = chars[right];
+        int i = left - 1;
+
+        for (int j = left; j < right; j++)
+        {
+            if (chars[j] <= pivot)
+            {
+                i++;
+                Swap(chars, i, j);
+            }
+        }
+
+        Swap(chars, i + 1, right);
+        return i + 1;
+    }
+
+    static string BubbleSort(string s)
+    {
+        char[] chars = s.ToCharArray();
+
+        for (int i = 0; i < chars.Length - 1; i++)
+        {
+            for (int j = 0; j < chars.Length - 1 - i; j++)
+            {
+                if (chars[j] > chars[j + 1])
+                {
+                    Swap(chars, j, j + 1);
+                }
+            }
+        }
+
+        return new string(chars);
+    }
