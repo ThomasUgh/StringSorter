@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 
 class StringSorter
 {
@@ -31,4 +31,18 @@ class StringSorter
         }
 
         Console.WriteLine("Sortierte Zeichenfolge: " + inputString);
+    }
+
+    static string GenerateRandomString()
+    {
+        Random random = new Random();
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        int length = random.Next(15, 25);
+        char[] stringChars = new char[length];
+        for (int i = 0; i < length; i++)
+        {
+            stringChars[i] = chars[random.Next(chars.Length)];
+        }
+
+        return new string(stringChars);
     }
