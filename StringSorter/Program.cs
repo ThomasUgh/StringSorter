@@ -1,19 +1,19 @@
 ﻿using System;
+using static System.Console;
 
 class StringSorter
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Wählen Sie eine Sortiermethode:");
-        Console.WriteLine("1 - Quick Sort");
-        Console.WriteLine("2 - Bubble Sort");
-        Console.WriteLine("3 - Selection Sort");
-        int method = int.Parse(Console.ReadLine());
+        WriteLine("Wählen Sie eine Sortiermethode:");
+        WriteLine("1 - Quick Sort");
+        WriteLine("2 - Bubble Sort");
+        WriteLine("3 - Selection Sort");
+        var method = int.Parse(ReadLine()!);
 
         // Zufälligen String generieren
-        string inputString = GenerateRandomString();
-
-        // String sortieren
+        var inputString = GenerateRandomString();
+        
         switch (method)
         {
             case 1:
@@ -26,20 +26,20 @@ class StringSorter
                 inputString = SelectionSort(inputString);
                 break;
             default:
-                Console.WriteLine("Ungültige Auswahl");
+                WriteLine("Ungültige Auswahl");
                 return;
         }
 
-        Console.WriteLine("Sortierte Zeichenfolge: " + inputString);
+        WriteLine("Sortierte Zeichenfolge: " + inputString);
     }
 
     static string GenerateRandomString()
     {
-        Random random = new Random();
+        var random = new Random();
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        int length = random.Next(15, 25);
-        char[] stringChars = new char[length];
-        for (int i = 0; i < length; i++)
+        var length = random.Next(15, 25); //Generierungslänge
+        var stringChars = new char[length];
+        for (var i = 0; i < length; i++)
         {
             stringChars[i] = chars[random.Next(chars.Length)];
         }
@@ -49,86 +49,74 @@ class StringSorter
 
     static string QuickSort(string s)
     {
-        char[] chars = s.ToCharArray();
+        var chars = s.ToCharArray();
         QuickSort(chars, 0, chars.Length - 1);
         return new string(chars);
     }
 
-    static void QuickSort(char[] chars, int left, int right)
+    private static void QuickSort(char[] chars, int left, int right)
     {
-        if (left < right)
-        {
-            int pivotIndex = Partition(chars, left, right);
-            QuickSort(chars, left, pivotIndex - 1);
-            QuickSort(chars, pivotIndex + 1, right);
-        }
+        if (left >= right) return;
+        var pivotIndex = Partition(chars, left, right);
+        QuickSort(chars, left, pivotIndex - 1);
+        QuickSort(chars, pivotIndex + 1, right);
     }
 
-    static int Partition(char[] chars, int left, int right)
+    private static int Partition(char[] chars, int left, int right)
     {
-        char pivot = chars[right];
-        int i = left - 1;
+        var pivot = chars[right];
+        var i = left - 1;
 
-        for (int j = left; j < right; j++)
+        for (var j = left; j < right; j++)
         {
-            if (chars[j] <= pivot)
-            {
-                i++;
-                Swap(chars, i, j);
-            }
+            if (chars[j] > pivot) continue;
+            i++;
+            Swap(chars, i, j);
         }
 
         Swap(chars, i + 1, right);
         return i + 1;
     }
 
-    static string BubbleSort(string s)
+    private static string BubbleSort(string s)
     {
-        char[] chars = s.ToCharArray();
+        var chars = s.ToCharArray();
 
-        for (int i = 0; i < chars.Length - 1; i++)
+        for (var i = 0; i < chars.Length - 1; i++)
         {
-            for (int j = 0; j < chars.Length - 1 - i; j++)
+            for (var j = 0; j < chars.Length - 1 - i; j++)
             {
-                if (chars[j] > chars[j + 1])
-                {
-                    Swap(chars, j, j + 1);
-                }
+                if (chars[j] <= chars[j + 1]) continue;
+                Swap(chars, j, j + 1);
             }
         }
 
         return new string(chars);
     }
 
-    static string SelectionSort(string s)
+    private static string SelectionSort(string s)
     {
-        char[] chars = s.ToCharArray();
+        var chars = s.ToCharArray();
 
-        for (int i = 0; i < chars.Length - 1; i++)
+        for (var i = 0; i < chars.Length - 1; i++)
         {
-            int minIndex = i;
+            var minIndex = i;
 
-            for (int j = i + 1; j < chars.Length; j++)
+            for (var j = i + 1; j < chars.Length; j++)
             {
-                if (chars[j] < chars[minIndex])
-                {
-                    minIndex = j;
-                }
+                if (chars[j] >= chars[minIndex]) continue;
+                minIndex = j;
             }
 
-            if (minIndex != i)
-            {
-                Swap(chars, i, minIndex);
-            }
+            if (minIndex == i) continue;
+            Swap(chars, i, minIndex);
         }
 
         return new string(chars);
     }
 
-    static void Swap(char[] chars, int i, int j)
+    private static void Swap(char[] chars, int i, int j)
     {
-        char temp = chars[i];
-        chars[i] = chars[j];
-        chars[j] = temp;
+        (chars[i], chars[j]) = (chars[j], chars[i]);
     }
 }
